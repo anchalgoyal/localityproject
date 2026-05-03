@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+*.egg-info/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.production
+
+# OS
+.DS_Store
+.DS_Store?
+*.swp
+
+# Data backups (keep full CSVs, ignore old samples)
+data/localities.csv
+data/projects.csv
