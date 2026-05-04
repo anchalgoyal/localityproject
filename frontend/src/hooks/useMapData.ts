@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../services/api";
 import { ALL_LOCALITY_STATUSES, ALL_PROJECT_STATUSES } from "../utils/constants";
 
@@ -85,13 +85,23 @@ export function useSummary() {
 }
 
 export function useLocalities(statuses: Set<string>) {
-  const arr = Array.from(statuses).sort();
-  return useAsync(() => api.getLocalities(arr), [arr.join(",")]);
+  const raw = useAsync(() => api.getLocalities(), []);
+  const data = useMemo(() => {
+    if (!raw.data) return null;
+    const filtered = raw.data.data.filter((l) => statuses.has(l.status));
+    return { data: filtered, count: filtered.length };
+  }, [raw.data, statuses]);
+  return { ...raw, data };
 }
 
 export function useProjects(statuses: Set<string>) {
-  const arr = Array.from(statuses).sort();
-  return useAsync(() => api.getProjects(arr), [arr.join(",")]);
+  const raw = useAsync(() => api.getProjects(), []);
+  const data = useMemo(() => {
+    if (!raw.data) return null;
+    const filtered = raw.data.data.filter((p) => statuses.has(p.status));
+    return { data: filtered, count: filtered.length };
+  }, [raw.data, statuses]);
+  return { ...raw, data };
 }
 
 export function useNpTarget() {
