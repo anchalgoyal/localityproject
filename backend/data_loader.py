@@ -177,7 +177,7 @@ class DataLoader:
                     "np_target_not_met": int(np_not_met) if np_not_met is not None else None,
                     "np_target_mtd": target_val,
                     "loc_np_not_met": round(loc_np) if loc_np is not None else None,
-                    "avg_bhk": avg_bhk,
+                    "avg_bhk": round(avg_bhk, 1) if avg_bhk is not None else None,
                     "price_per_bhk": price_per_bhk,
                 },
             })
