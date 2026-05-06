@@ -29,6 +29,7 @@ export interface ProjectMetrics {
   project_conversion: string | null;
   avg_conversion: string | null;
   avg_sessions: number | null;
+  pdp_sessions: number | null;
   np_target_not_met: number | null;
   np_target_mtd: number | null;
   loc_np_not_met: number | null;
@@ -61,6 +62,7 @@ export interface Locality {
   behind_props: number;
   net_score: number;
   np_target_not_met: number | null;
+  locality_np_target_mtd: number | null;
   impressions: number;
   clicks: number;
   paid_leads: number;

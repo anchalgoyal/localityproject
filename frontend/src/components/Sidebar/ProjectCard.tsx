@@ -46,6 +46,9 @@ export default function ProjectCard({ entityId, onClose }: Props) {
   const npFormatted = formatNpGapColored(m.np_target_not_met);
   const locNpFormatted = formatNpGapColored(m.loc_np_not_met);
 
+  const ctr = m.impressions > 0 ? (m.clicks / m.impressions) * 100 : null;
+  const ctrText = ctr != null ? `${ctr.toFixed(2)}%` : "—";
+
   const projConvFloat = parseConversionFloat(m.project_conversion);
   const avgConvFloat = parseConversionFloat(m.avg_conversion);
   const leadFill = m.expected_leads > 0 ? m.paid_leads / m.expected_leads : 0;
@@ -81,7 +84,7 @@ export default function ProjectCard({ entityId, onClose }: Props) {
         <button onClick={onClose} className="text-gray-400 hover:text-white text-lg leading-none ml-2">✕</button>
       </div>
 
-      {/* Row 1 */}
+      {/* Metrics grid: 2 columns x 5 rows (10 tiles) */}
       <div className="grid grid-cols-2 gap-2">
         <Tile label="Impressions" value={formatNumber(m.impressions)} sub="total views" />
         <Tile label="Clicks" value={formatNumber(m.clicks)} sub="click-throughs" />
@@ -91,15 +94,7 @@ export default function ProjectCard({ entityId, onClose }: Props) {
           sub={`of ${m.expected_leads} expected`}
           progress={{ fill: leadFill, color: leadColor }}
         />
-        <Tile
-          label="NP Not Met"
-          value={<span className={npFormatted.className}>{npFormatted.text}</span>}
-          sub={m.np_target_mtd != null ? `target: ${m.np_target_mtd} NPs` : undefined}
-        />
-      </div>
-
-      {/* Row 2 */}
-      <div className="grid grid-cols-2 gap-2">
+        <Tile label="CTR" value={ctrText} sub="clicks / impressions" />
         <Tile
           label="Proj Conv"
           value={m.project_conversion ?? "—"}
@@ -107,15 +102,21 @@ export default function ProjectCard({ entityId, onClose }: Props) {
           progress={{ fill: convFill, color: convColor }}
         />
         <Tile
-          label="Avg Conv (Similar)"
+          label="Avg Cov"
           value={m.avg_conversion ?? "—"}
           sub="similar price band avg"
           progress={{ fill: 1, color: "#6b7280" }}
         />
+        <Tile label="PDP Sessions" value={formatNumber(m.pdp_sessions)} sub="PDP sessions" />
         <Tile
-          label="Avg Sessions"
+          label="Avg Session"
           value={formatNumber(m.avg_sessions != null ? Math.round(m.avg_sessions) : null)}
           sub="similar price band avg"
+        />
+        <Tile
+          label="NP Not Met"
+          value={<span className={npFormatted.className}>{npFormatted.text}</span>}
+          sub={m.np_target_mtd != null ? `target: ${m.np_target_mtd} NPs` : undefined}
         />
         <Tile
           label="Loc NP Not Met"

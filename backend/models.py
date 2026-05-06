@@ -10,6 +10,8 @@ class ProjectMetrics(BaseModel):
     project_conversion: Optional[str]
     avg_conversion: Optional[str]
     avg_sessions: Optional[float]
+    # sessions for the specific project (from projects.csv `sessions`)
+    pdp_sessions: Optional[int]
     np_target_not_met: Optional[int]
     np_target_mtd: Optional[float]
     loc_np_not_met: Optional[int]
@@ -42,6 +44,7 @@ class Locality(BaseModel):
     behind_props: int
     net_score: int
     np_target_not_met: Optional[float]
+    locality_np_target_mtd: Optional[int]
     impressions: int
     clicks: int
     paid_leads: int

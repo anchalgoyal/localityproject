@@ -151,6 +151,12 @@ export default function LocalityCard({ locality, city, onClose }: Props) {
             {data.paid_leads >= cs.avg_paid_leads ? "above avg" : "below avg"}
           </span>
         </div>
+        <div className="flex justify-between text-sm">
+          <span className="text-gray-400">Locality Target</span>
+          <span className="text-white font-medium">
+            {formatNumber(data.locality_np_target_mtd)}
+          </span>
+        </div>
 
         {/* Conversion with city avg diff */}
         <div className="flex justify-between text-sm">

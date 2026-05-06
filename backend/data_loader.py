@@ -146,6 +146,7 @@ class DataLoader:
 
             avg_bhk = self._safe_float(row.get("avg_bhk"))
             avg_price = self._safe_int(row.get("avg_price", 0))
+            pdp_sessions = self._safe_float(row.get("sessions"))
             try:
                 price_per_bhk = round(avg_price / avg_bhk) if avg_bhk and avg_bhk > 0 else None
             except (TypeError, ZeroDivisionError):
@@ -174,6 +175,9 @@ class DataLoader:
                     "project_conversion": f"{float(row['project_conversion'])*100:.2f}%" if pd.notna(row.get("project_conversion")) else None,
                     "avg_conversion": f"{float(row['avg_conversion'])*100:.2f}%" if pd.notna(row.get("avg_conversion")) else None,
                     "avg_sessions": self._safe_float(row.get("avg_sessions")),
+                    "pdp_sessions": (
+                        int(round(pdp_sessions)) if pdp_sessions is not None else None
+                    ),
                     "np_target_not_met": int(np_not_met) if np_not_met is not None else None,
                     "np_target_mtd": target_val,
                     "loc_np_not_met": round(loc_np) if loc_np is not None else None,
@@ -199,6 +203,7 @@ class DataLoader:
             coords = self._parse_polygon(str(row.get("boundary_polygon", "")))
             lead_stats = self._loc_lead_stats(loc_id, proj_df)
             np_val = self._safe_float(row.get("np_target_not_met"))
+            locality_np_target_mtd = self._safe_float(row.get("locality_np_target_mtd"))
 
             prices = proj_df[(proj_df["locality_id"] == loc_id) & (proj_df["avg_price"] > 0)]["avg_price"]
             loc_avg_price = int(round(prices.mean())) if not prices.empty else None
@@ -216,6 +221,7 @@ class DataLoader:
                 "behind_props": lead_stats["behind_props"],
                 "net_score": lead_stats["net_score"],
                 "np_target_not_met": np_val,
+                "locality_np_target_mtd": round(locality_np_target_mtd) if locality_np_target_mtd is not None else None,
                 "impressions": self._safe_int(row.get("impressions", 0)),
                 "clicks": self._safe_int(row.get("clicks", 0)),
                 "paid_leads": self._safe_int(row.get("paid_leads", 0)),
