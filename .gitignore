@@ -18,6 +18,9 @@ frontend/.env.production
 .DS_Store?
 *.swp
 
+# Claude Code instructions (keep local only)
+CLAUDE.md
+
 # Data backups (keep full CSVs, ignore old samples)
 data/localities.csv
 data/projects.csv
